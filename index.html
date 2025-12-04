@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>عداد الأثر - جمعية مكافحة السرطان</title>
+    <!-- مهم جداً للتجاوب مع الجوال -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      :root {
+        --bg-dark: #020617;
+        --bg-card: rgba(15, 23, 42, 0.85);
+        --accent: #22c55e;
+        --accent-soft: #4ade80;
+        --accent-secondary: #38bdf8;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at top, #0f172a, #020617);
+        color: var(--text-main);
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+        background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.9),
+          rgba(15, 23, 42, 0.95)
+        );
+        border-radius: 28px;
+        padding: 22px 26px 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(148, 163, 184, 0.18);
+        backdrop-filter: blur(22px);
+      }
+
+      .header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .logo-title {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .logo-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        background: rgba(34, 197, 94, 0.08);
+        border: 1px solid rgba(34, 197, 94, 0.4);
+        color: var(--accent-soft);
+        white-space: nowrap;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+      }
+
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+
+      .hero {
+        width: 100%;
+        border-radius: 20px;
+        margin: 16px 0 14px;
+        object-fit: cover;
+        max-height: 260px;
+      }
+
+      .title-center {
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        border: none;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 11px 18px;
+        font-size: 15px;
+        font-weight: 600;
+        background: radial-gradient(circle at top left, #22c55e, #16a34a);
+        color: #ecfdf5;
+        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.35);
+        transition: transform 0.15s ease, box-shadow 0.15s ease,
+          opacity 0.15s ease;
+        width: 100%;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(34, 197, 94, 0.4);
+      }
+      .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+      }
+
+      .btn-secondary {
+        background: radial-gradient(circle at top left, #64748b, #475569);
+        color: #e5e7eb;
+        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      label {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="number"] {
+        width: 100%;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-main);
+        padding: 9px 14px;
+        font-size: 14px;
+        outline: none;
+        margin-bottom: 12px;
+      }
+      input:focus {
+        border-color: var(--accent-soft);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
+      }
+
+      .images-row {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0 6px;
+      }
+      .images-row img {
+        flex: 1;
+        border-radius: 20px;
+        max-height: 190px;
+        object-fit: cover;
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+      }
+
+      .donation-options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 10px 0 4px;
+      }
+      .donation-card {
+        border-radius: 18px;
+        padding: 10px 10px 12px;
+        background: radial-gradient(
+          circle at top,
+          rgba(15, 23, 42, 0.9),
+          rgba(15, 23, 42, 0.96)
+        );
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        font-size: 13px;
+        color: var(--text-main);
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .donation-card::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(
+          circle at top,
+          rgba(56, 189, 248, 0.06),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .donation-card span {
+        position: relative;
+        z-index: 1;
+      }
+      .donation-card.selected {
+        border-color: var(--accent-soft);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7),
+          0 18px 40px rgba(22, 163, 74, 0.55);
+      }
+      .donation-card.selected::before {
+        opacity: 1;
+      }
+
+      .field-inline {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .field-inline input {
+        margin-bottom: 0;
+      }
+      .small-note {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      /* صفحة النقاط */
+
+      .points-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr);
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .card-glass {
+        background: radial-gradient(
+          circle at top,
+          rgba(15, 23, 42, 0.95),
+          rgba(15, 23, 42, 0.98)
+        );
+        border-radius: 22px;
+        padding: 14px 16px 16px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: 0 14px 45px rgba(15, 23, 42, 0.9);
+      }
+
+      .circle-total {
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        margin: 0 auto;
+        background: conic-gradient(
+          var(--accent) var(--progress, 0deg),
+          rgba(30, 64, 175, 0.4) 0deg
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        transition: background 0.4s ease-out;
+      }
+      .circle-total::after {
+        content: "";
+        position: absolute;
+        inset: 16px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at top,
+          #020617,
+          #020617 50%,
+          #020617 100%
+        );
+        box-shadow: inset 0 0 25px rgba(15, 23, 42, 0.9);
+      }
+      .circle-main-content {
+        position: relative;
+        text-align: center;
+        z-index: 1;
+      }
+      .circle-main-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+      .circle-main-number {
+        font-size: 30px;
+        font-weight: 700;
+      }
+      .circle-main-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .mini-card {
+        border-radius: 18px;
+        padding: 10px 10px 12px;
+        background: radial-gradient(
+          circle at top,
+          rgba(15, 23, 42, 0.96),
+          rgba(15, 23, 42, 1)
+        );
+        border: 1px solid rgba(51, 65, 85, 0.9);
+        font-size: 12px;
+      }
+
+      .mini-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+        color: var(--text-muted);
+        font-size: 11px;
+      }
+
+      .mini-circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: conic-gradient(
+          var(--accent-secondary) var(--progress, 0deg),
+          rgba(31, 41, 55, 0.9) 0deg
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 4px auto 6px;
+        position: relative;
+        transition: background 0.3s ease-out;
+      }
+      .mini-circle::after {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border-radius: 50%;
+        background: #020617;
+        box-shadow: inset 0 0 15px rgba(15, 23, 42, 0.9);
+      }
+      .mini-percent {
+        position: relative;
+        z-index: 1;
+        font-size: 15px;
+        font-weight: 700;
+        color: #e0f2fe;
+      }
+      .mini-footer {
+        text-align: center;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .points-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.9);
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 6px;
+      }
+
+      .membership-pill {
+        font-size: 11px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(56, 189, 248, 0.6);
+        color: #bae6fd;
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      .footer-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      /* 🎯 تعديلات الجوال */
+      @media (max-width: 768px) {
+        .shell {
+          padding: 12px;
+          align-items: flex-start;
+        }
+
+        .container {
+          padding: 16px 14px 22px;
+          border-radius: 20px;
+        }
+
+        .header-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .badge {
+          align-self: stretch;
+          text-align: center;
+          white-space: normal;
+        }
+
+        .hero {
+          max-height: 190px;
+        }
+
+        .images-row {
+          flex-direction: column;
+        }
+
+        .btn-row {
+          flex-direction: column;
+        }
+
+        .field-inline {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .points-layout {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .mini-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .circle-total {
+          width: 180px;
+          height: 180px;
+        }
+
+        .footer-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="shell">
+      <div class="container">
+        <div class="header-bar">
+          <div class="logo-text">
+            <div class="logo-title">عداد الأثر</div>
+            <div class="logo-sub">برنامج نقاط التبرع لجمعية مكافحة السرطان</div>
+          </div>
+          <div class="badge">كل نقطة تعني دعماً حقيقياً 💚</div>
+        </div>
+
+        <!-- صفحة 1 -->
+        <div class="page active" id="page1">
+          <div class="title-center">
+            <h2>ابدأ أثرَك اليوم</h2>
+          </div>
+          <p class="subtitle">تابع نقاط عطائك وتبرعاتك بشكل فخم وواضح.</p>
+          <img src="sora1.jpg" alt="صورة ترحيبية" class="hero" />
+
+          <button class="btn" onclick="goToPage(2)">
+            تسجيل دخول وبدء العدّاد
+          </button>
+        </div>
+
+        <!-- صفحة 2: تسجيل الدخول -->
+        <div class="page" id="page2">
+          <div class="title-center">
+            <h2>تسجيل الدخول</h2>
+          </div>
+          <p class="subtitle">
+            يُمنحك التسجيل 20 نقطة عضوية عند الانضمام لأول مرة.
+          </p>
+
+          <label for="username">اسم المستخدم</label>
+          <input id="username" type="text" placeholder="اكتب اسم المستخدم" />
+
+          <label for="password">كلمة المرور</label>
+          <input id="password" type="password" placeholder="اكتب كلمة المرور" />
+
+          <div class="btn-row">
+            <button class="btn-secondary" onclick="goToPage(1)">رجوع</button>
+            <button class="btn" onclick="login()">دخول</button>
+          </div>
+        </div>
+
+        <!-- صفحة 3: صور + زر تبرع -->
+        <div class="page" id="page3">
+          <div class="title-center">
+            <h2>مع المرضى في رحلة العلاج</h2>
+          </div>
+          <p class="subtitle">لقطات توضّح كيف يتحوّل عطاؤك إلى أثر ملموس.</p>
+
+          <div class="images-row">
+            <img src="sora2.jpg" alt="برامج الأثر" />
+            <img src="sora3.jpg" alt="آلية احتساب النقاط" />
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-secondary" onclick="goToPage(2)">رجوع</button>
+            <button class="btn" onclick="goToPage(4)">ابدأ التبرع الآن</button>
+          </div>
+        </div>
+
+        <!-- صفحة 4: اختيار نوع التبرع + مبلغ -->
+        <div class="page" id="page4">
+          <div class="title-center">
+            <h2>اختر نوع تبرعك</h2>
+          </div>
+          <p class="subtitle">لكل نوع تبرع دائرة خاصة به من ١٠٠٠ نقطة.</p>
+
+          <div class="donation-options">
+            <div class="donation-card" onclick="selectDonation('chemo', this)">
+              <span>جرعات الكيماوي</span>
+            </div>
+            <div class="donation-card" onclick="selectDonation('events', this)">
+              <span>فعاليات للمرضى</span>
+            </div>
+            <div class="donation-card" onclick="selectDonation('meds', this)">
+              <span>أدوية وعلاجات</span>
+            </div>
+            <div class="donation-card" onclick="selectDonation('beds', this)">
+              <span>أسرّة وتجهيزات</span>
+            </div>
+            <div
+              class="donation-card"
+              onclick="selectDonation('families', this)"
+            >
+              <span>دعم أسر المرضى</span>
+            </div>
+            <div
+              class="donation-card"
+              onclick="selectDonation('initiatives', this)"
+            >
+              <span>مبادرات خاصة</span>
+            </div>
+          </div>
+
+          <div class="field-inline">
+            <div style="flex: 1">
+              <label for="amount">مبلغ التبرع (ريال)</label>
+              <input
+                id="amount"
+                type="number"
+                min="1"
+                placeholder="مثال: 200"
+              />
+            </div>
+            <div>
+              <div class="small-note">كل ٢٠ ريال = نقطة واحدة</div>
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top: 16px">
+            <button class="btn-secondary" onclick="goToPage(3)">رجوع</button>
+            <button class="btn" onclick="donate()">تأكيد التبرع</button>
+          </div>
+        </div>
+
+        <!-- صفحة 5: نقاط التبرع + الدوائر -->
+        <div class="page" id="page5">
+          <div class="title-center">
+            <h2>نقاط الأثر</h2>
+          </div>
+          <p class="subtitle">
+            صفحة فخمة توضّح مجموع نقاطك، مع دائرة خاصة لكل نوع تبرع (١٠٠٠ نقطة
+            لكل نوع، و٦٠٠٠ نقطة للمجموع).
+          </p>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-top: 6px;
+            "
+          >
+            <span class="membership-pill"
+              >نقاط العضوية: <span id="membershipPoints">0</span></span
+            >
+            <span class="small-note">تحديث تلقائي بعد كل تبرع</span>
+          </div>
+
+          <div class="points-layout">
+            <!-- الدائرة الرئيسية -->
+            <div class="card-glass">
+              <h3
+                style="font-size: 14px; margin-bottom: 10px; text-align: center"
+              >
+                إجمالي نقاط التبرع
+              </h3>
+              <div class="circle-total" id="circle-total">
+                <div class="circle-main-content">
+                  <div class="circle-main-number" id="totalPoints">0</div>
+                  <div class="circle-main-sub">من ٦٠٠٠ نقطة</div>
+                  <div class="circle-main-label" id="totalPercent">0%</div>
+                </div>
+              </div>
+
+              <div class="points-chip">
+                آخر عملية تبرع:
+                <span id="lastDonationText">لا يوجد تبرع بعد.</span>
+              </div>
+            </div>
+
+            <!-- ست دوائر للأنواع -->
+            <div class="card-glass">
+              <h3
+                style="font-size: 14px; margin-bottom: 8px; text-align: center"
+              >
+                الأقسام الستة لعداد الأثر
+              </h3>
+
+              <div class="mini-grid">
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>جرعات الكيماوي</span>
+                    <span id="points-chemo">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-chemo">
+                    <div class="mini-percent" id="percent-chemo">0%</div>
+                  </div>
+                  <div class="mini-footer">نقاط هذا النوع فقط</div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>فعاليات للمرضى</span>
+                    <span id="points-events">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-events">
+                    <div class="mini-percent" id="percent-events">0%</div>
+                  </div>
+                  <div class="mini-footer">رحلات، برامج وأنشطة</div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>أدوية وعلاجات</span>
+                    <span id="points-meds">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-meds">
+                    <div class="mini-percent" id="percent-meds">0%</div>
+                  </div>
+                  <div class="mini-footer">تأمين العلاج اللازم</div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>أسرّة وتجهيزات</span>
+                    <span id="points-beds">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-beds">
+                    <div class="mini-percent" id="percent-beds">0%</div>
+                  </div>
+                  <div class="mini-footer">تجهيز غرف المرضى</div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>دعم أسر المرضى</span>
+                    <span id="points-families">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-families">
+                    <div class="mini-percent" id="percent-families">0%</div>
+                  </div>
+                  <div class="mini-footer">مساندة اجتماعية ومعيشية</div>
+                </div>
+
+                <div class="mini-card">
+                  <div class="mini-header">
+                    <span>مبادرات خاصة</span>
+                    <span id="points-initiatives">0 / 1000</span>
+                  </div>
+                  <div class="mini-circle" id="circle-initiatives">
+                    <div class="mini-percent" id="percent-initiatives">0%</div>
+                  </div>
+                  <div class="mini-footer">مشاريع نوعية للجمعية</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-actions">
+            <button class="btn" onclick="goToPage(4)">تبرع من جديد</button>
+            <button class="btn-secondary" onclick="goToPage(1)">
+              العودة للواجهة الرئيسية
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // تعريف أنواع التبرع الستة
+      const donationTypes = {
+        chemo: { name: "جرعات الكيماوي", points: 0, max: 1000 },
+        events: { name: "فعاليات للمرضى", points: 0, max: 1000 },
+        meds: { name: "أدوية وعلاجات", points: 0, max: 1000 },
+        beds: { name: "أسرّة وتجهيزات", points: 0, max: 1000 },
+        families: { name: "دعم أسر المرضى", points: 0, max: 1000 },
+        initiatives: { name: "مبادرات خاصة", points: 0, max: 1000 },
+      };
+
+      const TOTAL_MAX = 6000;
+
+      let membershipPoints = 0;
+      let hasGivenMembership = false;
+      let currentDonationKey = null;
+
+      function goToPage(num) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById("page" + num).classList.add("active");
+      }
+
+      function login() {
+        const user = document.getElementById("username").value.trim();
+        const pass = document.getElementById("password").value.trim();
+
+        if (!user || !pass) {
+          alert("الرجاء إدخال اسم المستخدم وكلمة المرور");
+          return;
+        }
+
+        if (!hasGivenMembership) {
+          membershipPoints = 20;
+          hasGivenMembership = true;
+        }
+
+        updateMembershipDisplay();
+        goToPage(3);
+      }
+
+      function selectDonation(key, element) {
+        currentDonationKey = key;
+
+        document
+          .querySelectorAll(".donation-card")
+          .forEach((card) => card.classList.remove("selected"));
+        element.classList.add("selected");
+      }
+
+      function donate() {
+        const amountInput = document.getElementById("amount");
+        const amount = parseFloat(amountInput.value);
+
+        if (!currentDonationKey) {
+          alert("الرجاء اختيار نوع التبرع أولاً");
+          return;
+        }
+
+        if (isNaN(amount) || amount <= 0) {
+          alert("الرجاء إدخال مبلغ تبرع صحيح أكبر من صفر");
+          return;
+        }
+
+        const pointsFromMoney = Math.floor(amount / 20);
+        if (pointsFromMoney <= 0) {
+          alert(
+            "المبلغ صغير جداً للحصول على نقاط، جرّب مبلغاً أكبر من ٢٠ ريال."
+          );
+          return;
+        }
+
+        donationTypes[currentDonationKey].points += pointsFromMoney;
+
+        const lastText = document.getElementById("lastDonationText");
+        lastText.textContent =
+          "تبرعت بمبلغ " +
+          amount +
+          ' ريال في قسم "' +
+          donationTypes[currentDonationKey].name +
+          '" وحصلت على ' +
+          pointsFromMoney +
+          " نقطة.";
+
+        amountInput.value = "";
+        updateAllPointsAndCircles();
+        alert("شكراً لعطائك، تم إضافة النقاط بنجاح ✨");
+
+        goToPage(5);
+      }
+
+      function updateMembershipDisplay() {
+        document.getElementById("membershipPoints").textContent =
+          membershipPoints;
+      }
+
+      function updateAllPointsAndCircles() {
+        // تحديث نصوص النقاط لكل نوع
+        let totalDonationPoints = 0;
+
+        for (const key in donationTypes) {
+          const type = donationTypes[key];
+          totalDonationPoints += type.points;
+
+          const pct = Math.min((type.points / type.max) * 100, 100);
+          const degrees = pct * 3.6;
+
+          const circle = document.getElementById("circle-" + key);
+          const percentLabel = document.getElementById("percent-" + key);
+          const pointsLabel = document.getElementById("points-" + key);
+
+          if (circle) {
+            circle.style.setProperty("--progress", degrees + "deg");
+          }
+          if (percentLabel) {
+            percentLabel.textContent = Math.round(pct) + "%";
+          }
+          if (pointsLabel) {
+            pointsLabel.textContent = type.points + " / " + type.max;
+          }
+        }
+
+        // تحديث الدائرة الكلية
+        const totalElement = document.getElementById("totalPoints");
+        const totalPercentElement = document.getElementById("totalPercent");
+        const circleTotal = document.getElementById("circle-total");
+
+        const totalForGauge = Math.min(totalDonationPoints, TOTAL_MAX);
+        const percentTotal = Math.min((totalForGauge / TOTAL_MAX) * 100, 100);
+        const totalDegrees = percentTotal * 3.6;
+
+        totalElement.textContent = totalDonationPoints;
+        totalPercentElement.textContent = Math.round(percentTotal) + "%";
+        circleTotal.style.setProperty("--progress", totalDegrees + "deg");
+
+        updateMembershipDisplay();
+      }
+    </script>
+  </body>
+</html>
