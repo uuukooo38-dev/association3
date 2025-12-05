@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       :root {
-        --bg-dark: #020617;
-        --bg-card: rgba(15, 23, 42, 0.85);
-        --accent: #22c55e;
-        --accent-soft: #4ade80;
-        --accent-secondary: #38bdf8;
-        --text-main: #e5e7eb;
-        --text-muted: #9ca3af;
+        --bg-page: #ffffff;
+        --bg-card: #ffffff;
+        --accent: #ec4899; /* وردي */
+        --accent-soft: #f472b6; /* وردي فاتح */
+        --accent-secondary: #fb7185; /* وردي/سلمون */
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --border-soft: #e5e7eb;
       }
 
       * {
@@ -24,7 +25,7 @@
         margin: 0;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           sans-serif;
-        background: radial-gradient(circle at top, #0f172a, #020617);
+        background: var(--bg-page);
         color: var(--text-main);
       }
 
@@ -39,16 +40,10 @@
       .container {
         width: 100%;
         max-width: 900px;
-        background: linear-gradient(
-          135deg,
-          rgba(15, 23, 42, 0.9),
-          rgba(15, 23, 42, 0.95)
-        );
+        background: var(--bg-card);
         border-radius: 28px;
         padding: 22px 26px 30px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
-          0 0 0 1px rgba(148, 163, 184, 0.18);
-        backdrop-filter: blur(22px);
+        box-shadow: 0 20px 40px rgba(236, 72, 153, 0.2);
       }
 
       .header-bar {
@@ -76,9 +71,9 @@
         padding: 4px 10px;
         border-radius: 999px;
         font-size: 11px;
-        background: rgba(34, 197, 94, 0.08);
-        border: 1px solid rgba(34, 197, 94, 0.4);
-        color: var(--accent-soft);
+        background: rgba(236, 72, 153, 0.06);
+        border: 1px solid rgba(236, 72, 153, 0.4);
+        color: var(--accent);
         white-space: nowrap;
       }
 
@@ -101,6 +96,7 @@
         margin: 16px 0 14px;
         object-fit: cover;
         max-height: 260px;
+        border: 1px solid var(--border-soft);
       }
 
       .title-center {
@@ -122,26 +118,27 @@
         padding: 11px 18px;
         font-size: 15px;
         font-weight: 600;
-        background: radial-gradient(circle at top left, #22c55e, #16a34a);
-        color: #ecfdf5;
-        box-shadow: 0 12px 30px rgba(34, 197, 94, 0.35);
+        background: radial-gradient(circle at top left, #f9a8d4, #ec4899);
+        color: #fdf2f8;
+        box-shadow: 0 12px 30px rgba(236, 72, 153, 0.35);
         transition: transform 0.15s ease, box-shadow 0.15s ease,
           opacity 0.15s ease;
         width: 100%;
       }
       .btn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 16px 40px rgba(34, 197, 94, 0.4);
+        box-shadow: 0 16px 40px rgba(236, 72, 153, 0.45);
       }
       .btn:active {
         transform: translateY(0);
-        box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+        box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
       }
 
       .btn-secondary {
-        background: radial-gradient(circle at top left, #64748b, #475569);
-        color: #e5e7eb;
-        box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+        background: #f3f4f6;
+        color: #374151;
+        box-shadow: none;
+        border: 1px solid var(--border-soft);
       }
 
       .btn-row {
@@ -162,8 +159,8 @@
       input[type="number"] {
         width: 100%;
         border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--border-soft);
+        background: #ffffff;
         color: var(--text-main);
         padding: 9px 14px;
         font-size: 14px;
@@ -172,7 +169,7 @@
       }
       input:focus {
         border-color: var(--accent-soft);
-        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.4);
+        box-shadow: 0 0 0 1px rgba(244, 114, 182, 0.4);
       }
 
       .images-row {
@@ -185,7 +182,7 @@
         border-radius: 20px;
         max-height: 190px;
         object-fit: cover;
-        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--border-soft);
       }
 
       .donation-options {
@@ -197,18 +194,16 @@
       .donation-card {
         border-radius: 18px;
         padding: 10px 10px 12px;
-        background: radial-gradient(
-          circle at top,
-          rgba(15, 23, 42, 0.9),
-          rgba(15, 23, 42, 0.96)
-        );
-        border: 1px solid rgba(148, 163, 184, 0.45);
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
         font-size: 13px;
         color: var(--text-main);
         text-align: center;
         cursor: pointer;
         position: relative;
         overflow: hidden;
+        transition: box-shadow 0.2s ease, transform 0.1s ease,
+          border-color 0.2s ease;
       }
       .donation-card::before {
         content: "";
@@ -216,7 +211,7 @@
         inset: -40%;
         background: radial-gradient(
           circle at top,
-          rgba(56, 189, 248, 0.06),
+          rgba(236, 72, 153, 0.08),
           transparent 60%
         );
         opacity: 0;
@@ -226,10 +221,14 @@
         position: relative;
         z-index: 1;
       }
+      .donation-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(248, 187, 208, 0.5);
+      }
       .donation-card.selected {
         border-color: var(--accent-soft);
-        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.7),
-          0 18px 40px rgba(22, 163, 74, 0.55);
+        box-shadow: 0 0 0 1px rgba(244, 114, 182, 0.6),
+          0 18px 40px rgba(244, 114, 182, 0.4);
       }
       .donation-card.selected::before {
         opacity: 1;
@@ -259,15 +258,11 @@
       }
 
       .card-glass {
-        background: radial-gradient(
-          circle at top,
-          rgba(15, 23, 42, 0.95),
-          rgba(15, 23, 42, 0.98)
-        );
+        background: #ffffff;
         border-radius: 22px;
         padding: 14px 16px 16px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        box-shadow: 0 14px 45px rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--border-soft);
+        box-shadow: 0 14px 35px rgba(248, 187, 208, 0.45);
       }
 
       .circle-total {
@@ -277,7 +272,7 @@
         margin: 0 auto;
         background: conic-gradient(
           var(--accent) var(--progress, 0deg),
-          rgba(30, 64, 175, 0.4) 0deg
+          #f3f4f6 0deg
         );
         display: flex;
         justify-content: center;
@@ -290,13 +285,8 @@
         position: absolute;
         inset: 16px;
         border-radius: 50%;
-        background: radial-gradient(
-          circle at top,
-          #020617,
-          #020617 50%,
-          #020617 100%
-        );
-        box-shadow: inset 0 0 25px rgba(15, 23, 42, 0.9);
+        background: #ffffff;
+        box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.04);
       }
       .circle-main-content {
         position: relative;
@@ -326,12 +316,8 @@
       .mini-card {
         border-radius: 18px;
         padding: 10px 10px 12px;
-        background: radial-gradient(
-          circle at top,
-          rgba(15, 23, 42, 0.96),
-          rgba(15, 23, 42, 1)
-        );
-        border: 1px solid rgba(51, 65, 85, 0.9);
+        background: #ffffff;
+        border: 1px solid var(--border-soft);
         font-size: 12px;
       }
 
@@ -350,7 +336,7 @@
         border-radius: 50%;
         background: conic-gradient(
           var(--accent-secondary) var(--progress, 0deg),
-          rgba(31, 41, 55, 0.9) 0deg
+          #f3f4f6 0deg
         );
         display: flex;
         justify-content: center;
@@ -364,15 +350,15 @@
         position: absolute;
         inset: 12px;
         border-radius: 50%;
-        background: #020617;
-        box-shadow: inset 0 0 15px rgba(15, 23, 42, 0.9);
+        background: #ffffff;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.04);
       }
       .mini-percent {
         position: relative;
         z-index: 1;
         font-size: 15px;
         font-weight: 700;
-        color: #e0f2fe;
+        color: var(--accent);
       }
       .mini-footer {
         text-align: center;
@@ -386,8 +372,8 @@
         gap: 4px;
         padding: 4px 8px;
         border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--border-soft);
+        background: #ffffff;
         font-size: 11px;
         color: var(--text-muted);
         margin-top: 6px;
@@ -397,15 +383,148 @@
         font-size: 11px;
         padding: 4px 9px;
         border-radius: 999px;
-        border: 1px solid rgba(56, 189, 248, 0.6);
-        color: #bae6fd;
-        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--accent-soft);
+        color: var(--accent);
+        background: #ffffff;
+      }
+
+      /* شارة مستوى العضوية + الدرع الدائري */
+      .membership-level-badge {
+        font-size: 11px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        margin-right: 6px;
+        border: 1px solid var(--border-soft);
+        background: #f9fafb;
+        color: #374151;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .membership-level-badge::before {
+        content: "";
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        border: 1px solid currentColor;
+        display: inline-block;
+      }
+
+      .membership-level-badge.level-bronze {
+        background: #fff7ed;
+        border-color: #fdba74;
+        color: #c2410c;
+      }
+      .membership-level-badge.level-bronze::before {
+        background: linear-gradient(#fed7aa, #fb923c);
+      }
+
+      .membership-level-badge.level-silver {
+        background: #f3f4f6;
+        border-color: #d1d5db;
+        color: #4b5563;
+      }
+      .membership-level-badge.level-silver::before {
+        background: linear-gradient(#e5e7eb, #9ca3af);
+      }
+
+      .membership-level-badge.level-gold {
+        background: #fef9c3;
+        border-color: #facc15;
+        color: #92400e;
+      }
+      .membership-level-badge.level-gold::before {
+        background: linear-gradient(#fde047, #f59e0b);
+      }
+
+      .membership-level-badge.level-inspire {
+        background: #fce7f3;
+        border-color: #ec4899;
+        color: #9d174d;
+      }
+      .membership-level-badge.level-inspire::before {
+        background: linear-gradient(#f9a8d4, #ec4899);
       }
 
       .footer-actions {
         display: flex;
         gap: 10px;
         margin-top: 16px;
+      }
+
+      /* 🎀 Popup عضويات */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.35);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 18px 18px 16px;
+        max-width: 360px;
+        width: 90%;
+        box-shadow: 0 20px 45px rgba(236, 72, 153, 0.35);
+        border: 1px solid #fecdd3;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .modal-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .modal-close {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        color: #9ca3af;
+      }
+
+      .modal-list {
+        font-size: 13px;
+        margin: 8px 0 10px;
+      }
+
+      .modal-list-item {
+        margin-bottom: 8px;
+      }
+
+      .modal-list-label {
+        font-weight: 600;
+      }
+
+      .modal-actions {
+        text-align: left;
+        margin-top: 8px;
+      }
+
+      .modal-actions button {
+        font-size: 12px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        background: #ec4899;
+        color: #fdf2f8;
       }
 
       /* 🎯 تعديلات الجوال */
@@ -465,6 +584,10 @@
         .footer-actions {
           flex-direction: column;
         }
+
+        .modal-card {
+          max-width: 92%;
+        }
       }
     </style>
   </head>
@@ -475,9 +598,9 @@
         <div class="header-bar">
           <div class="logo-text">
             <div class="logo-title">عداد الأثر</div>
-            <div class="logo-sub">برنامج نقاط التبرع لجمعية مكافحة السرطان</div>
+            <div class="logo-sub">جمعيةالحياة لمرضى السرطان</div>
           </div>
-          <div class="badge">كل نقطة تعني دعماً حقيقياً 💚</div>
+          <div class="badge">كل نقطة تعني دعماً حقيقياً 🎀</div>
         </div>
 
         <!-- صفحة 1 -->
@@ -485,7 +608,7 @@
           <div class="title-center">
             <h2>ابدأ أثرَك اليوم</h2>
           </div>
-          <p class="subtitle">تابع نقاط عطائك وتبرعاتك بشكل فخم وواضح.</p>
+          <p class="subtitle">تابع نقاط عطائك وتبرعاتك بشكل واضح وشفاف.</p>
           <img src="sora1.jpg" alt="صورة ترحيبية" class="hero" />
 
           <button class="btn" onclick="goToPage(2)">
@@ -519,7 +642,9 @@
           <div class="title-center">
             <h2>مع المرضى في رحلة العلاج</h2>
           </div>
-          <p class="subtitle">لقطات توضّح كيف يتحوّل عطاؤك إلى أثر ملموس.</p>
+          <p class="subtitle">
+            شرح مبسّط يوضح كيف يتحول عطاؤك إلى أثر فعلي للمريض.
+          </p>
 
           <div class="images-row">
             <img src="sora2.jpg" alt="برامج الأثر" />
@@ -541,16 +666,16 @@
 
           <div class="donation-options">
             <div class="donation-card" onclick="selectDonation('chemo', this)">
-              <span>جرعات الكيماوي</span>
+              <span>دعم جرعات العلاج الكيماوي </span>
             </div>
             <div class="donation-card" onclick="selectDonation('events', this)">
-              <span>فعاليات للمرضى</span>
+              <span>برنامج تحسين تجربة المريض </span>
             </div>
             <div class="donation-card" onclick="selectDonation('meds', this)">
               <span>أدوية وعلاجات</span>
             </div>
             <div class="donation-card" onclick="selectDonation('beds', this)">
-              <span>أسرّة وتجهيزات</span>
+              <span>تجهيزات طبية ومساندة للمرضى</span>
             </div>
             <div
               class="donation-card"
@@ -593,8 +718,8 @@
             <h2>نقاط الأثر</h2>
           </div>
           <p class="subtitle">
-            صفحة فخمة توضّح مجموع نقاطك، مع دائرة خاصة لكل نوع تبرع (١٠٠٠ نقطة
-            لكل نوع، و٦٠٠٠ نقطة للمجموع).
+            صفحة تعرض مجموع نقاط أثرك, مع مؤشرات نوضح تقدمك في كل نوع من أنواع
+            التبرعات
           </p>
 
           <div
@@ -603,11 +728,18 @@
               justify-content: space-between;
               align-items: center;
               margin-top: 6px;
+              gap: 8px;
             "
           >
-            <span class="membership-pill"
-              >نقاط العضوية: <span id="membershipPoints">0</span></span
-            >
+            <div>
+              <span class="membership-pill">
+                نقاط العضوية الحالية:
+                <span id="membershipPoints">0</span>
+              </span>
+              <span id="membershipLevel" class="membership-level-badge"
+                >عضو جديد</span
+              >
+            </div>
             <span class="small-note">تحديث تلقائي بعد كل تبرع</span>
           </div>
 
@@ -644,7 +776,7 @@
               <div class="mini-grid">
                 <div class="mini-card">
                   <div class="mini-header">
-                    <span>جرعات الكيماوي</span>
+                    <span>دعم جرعات العلاج الكيماوي</span>
                     <span id="points-chemo">0 / 1000</span>
                   </div>
                   <div class="mini-circle" id="circle-chemo">
@@ -655,7 +787,7 @@
 
                 <div class="mini-card">
                   <div class="mini-header">
-                    <span>فعاليات للمرضى</span>
+                    <span>برنامج تحسين تجربة المريض</span>
                     <span id="points-events">0 / 1000</span>
                   </div>
                   <div class="mini-circle" id="circle-events">
@@ -677,7 +809,7 @@
 
                 <div class="mini-card">
                   <div class="mini-header">
-                    <span>أسرّة وتجهيزات</span>
+                    <span>تجهيزات طبية ومساندة للمرضى </span>
                     <span id="points-beds">0 / 1000</span>
                   </div>
                   <div class="mini-circle" id="circle-beds">
@@ -721,14 +853,56 @@
       </div>
     </div>
 
+    <!-- 🎀 نافذة منبثقة: ترتيب العضويات -->
+    <div id="membershipModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">ترتيب عضويات العطاء</div>
+          <button class="modal-close" onclick="closeMembershipModal()">
+            ✕
+          </button>
+        </div>
+
+        <div class="modal-list">
+          <div class="modal-list-item">
+            <div class="modal-list-label">1) 🥉 عضو برونزي</div>
+            <div class="small-note">١ – ٥٠ نقطة</div>
+          </div>
+
+          <div class="modal-list-item">
+            <div class="modal-list-label">2) 🥈 عضو فضي</div>
+            <div class="small-note">٥١ – ١٠٠ نقطة</div>
+          </div>
+
+          <div class="modal-list-item">
+            <div class="modal-list-label">3) 🥇 عضو ذهبي</div>
+            <div class="small-note">١٠١ – ٢٠٠ نقطة</div>
+          </div>
+
+          <div class="modal-list-item">
+            <div class="modal-list-label">4) 🎖️ عضو ملهم</div>
+            <div class="small-note">٢٠١ – ٣٥٠ نقطة</div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button onclick="closeMembershipModal()">فهمت ✅</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       // تعريف أنواع التبرع الستة
       const donationTypes = {
-        chemo: { name: "جرعات الكيماوي", points: 0, max: 1000 },
-        events: { name: "فعاليات للمرضى", points: 0, max: 1000 },
+        chemo: { name: "دعم جرعات العلاج الكيماوي ", points: 0, max: 1000 },
+        events: { name: "برنامج تحسين تجربة المريض", points: 0, max: 1000 },
         meds: { name: "أدوية وعلاجات", points: 0, max: 1000 },
         beds: { name: "أسرّة وتجهيزات", points: 0, max: 1000 },
-        families: { name: "دعم أسر المرضى", points: 0, max: 1000 },
+        families: {
+          name: "تجهيزات طبية ومساندة للمرضى",
+          points: 0,
+          max: 1000,
+        },
         initiatives: { name: "مبادرات خاصة", points: 0, max: 1000 },
       };
 
@@ -759,7 +933,7 @@
           hasGivenMembership = true;
         }
 
-        updateMembershipDisplay();
+        updateAllPointsAndCircles();
         goToPage(3);
       }
 
@@ -794,7 +968,10 @@
           return;
         }
 
+        // إضافة النقاط لنوع التبرع
         donationTypes[currentDonationKey].points += pointsFromMoney;
+        // إضافة النقاط لنقاط العضوية
+        membershipPoints += pointsFromMoney;
 
         const lastText = document.getElementById("lastDonationText");
         lastText.textContent =
@@ -811,11 +988,40 @@
         alert("شكراً لعطائك، تم إضافة النقاط بنجاح ✨");
 
         goToPage(5);
+        showMembershipModal(); // إظهار نافذة ترتيب العضويات بعد الوصول لصفحة النقاط
+      }
+
+      // ترتيب العضويات حسب الفكرة الجديدة:
+      // 1–50  برونزي
+      // 51–100 فضي
+      // 101–200 ذهبي
+      // 201–350 ملهم (وما فوق)
+      function getMembershipLevelInfo(points) {
+        if (points >= 201) {
+          return { text: "عضو ملهم 🎖️", cls: "level-inspire" };
+        } else if (points >= 101) {
+          return { text: "عضو ذهبي 🥇", cls: "level-gold" };
+        } else if (points >= 51) {
+          return { text: "عضو فضي 🥈", cls: "level-silver" };
+        } else if (points >= 1) {
+          return { text: "عضو برونزي 🥉", cls: "level-bronze" };
+        } else {
+          return { text: "عضو جديد", cls: "" };
+        }
       }
 
       function updateMembershipDisplay() {
         document.getElementById("membershipPoints").textContent =
           membershipPoints;
+
+        const levelSpan = document.getElementById("membershipLevel");
+        const info = getMembershipLevelInfo(membershipPoints);
+
+        levelSpan.textContent = info.text;
+        levelSpan.className = "membership-level-badge";
+        if (info.cls) {
+          levelSpan.classList.add(info.cls);
+        }
       }
 
       function updateAllPointsAndCircles() {
@@ -859,6 +1065,29 @@
 
         updateMembershipDisplay();
       }
+
+      function showMembershipModal() {
+        const modal = document.getElementById("membershipModal");
+        if (modal) {
+          modal.classList.add("active");
+        }
+      }
+
+      function closeMembershipModal() {
+        const modal = document.getElementById("membershipModal");
+        if (modal) {
+          modal.classList.remove("active");
+        }
+      }
+
+      // إغلاق البوب أب بالضغط على الخلفية
+      document.addEventListener("click", function (e) {
+        const modal = document.getElementById("membershipModal");
+        if (!modal) return;
+        if (e.target === modal) {
+          closeMembershipModal();
+        }
+      });
     </script>
   </body>
 </html>
